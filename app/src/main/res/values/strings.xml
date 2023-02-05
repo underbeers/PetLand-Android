@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Petland</string>
+
+    <string name="login_screen_password_placeholder">Пароль</string>
+    <string name="login_screen_forgot_password">Забыли пароль?</string>
+    <string name="login_screen_stay_logged">"Не выходить из аккаунта"</string>
+    <string name="login_screen_email_or_username">Логин или почта</string>
+    <string name="login_screen_authorisation">Авторизация</string>
+    <string name="login_screen_have_not_signed_up">У вас ещё нет аккаунта?</string>
+    <string name="login_screen_sign_in">Войти</string>
+    <string name="login_screen_sign_up">Зарегистрироваться</string>
+    <string name="login_screen_email_error">Некорректный формат</string>
+    <string name="login_screen_authorization_error">Неверный логин или пароль</string>
+    <string name="login_screen_success_title">Вы авторизовались!</string>
+    <string name="login_screen_success_message">Скоро будет добавлена регистрация</string>
+
+    <string name="password_length_short">Не меньше 8 символов</string>
+    <string name="password_at_least_one_capital_letter">Как минимум 1 заглавная буква</string>
+    <string name="password_at_least_one_special_symbol">Как минимум 1 специальный символ</string>
+    <string name="password_at_least_one_digit">Как минимум 1 цифра</string>
 </resources>
