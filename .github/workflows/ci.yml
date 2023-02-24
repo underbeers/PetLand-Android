@@ -123,16 +123,6 @@ jobs:
           asset_name: app-debug.apk
           asset_content_type: application/zip
 
-      - name: Send a message about the release
-        run: |
-          curl \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d parse_mode=HTML \
-          -d text=\
-          "📱 <b>Debug Apk released</b>%0A\
-          url: https://github.com/${{ github.repository }}/releases/tag/continuous" \
-          "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
-
       - name: Send apk to chat
         run: |
           curl \
