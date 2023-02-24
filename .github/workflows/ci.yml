@@ -31,10 +31,6 @@ jobs:
         id: commit_info
         run: |
           echo "commit_count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
-          for changed_file in ${{ steps.files.outputs.all }}; do
-            CHANGED_FILES=${changed_file}\\n${CHANGED_FILES}
-          done
-          echo -e "files_changed=${CHANGED_FILES}" >> $GITHUB_OUTPUT
 
       - name: Send a message about the latest commit
         run: |
@@ -50,7 +46,7 @@ jobs:
           ${{ github.event.head_commit.message }}%0A\
           %0A\
           <b>files changed:</b>%0A\
-          <pre>${{ steps.commit_info.outputs.files_changed }}</pre>%0A\
+          <pre>${{ steps.files.outputs.all }}</pre>%0A\
           %0A\
           <b>commit link:</b> https://github.com/${{ github.repository }}/commit/${{ github.sha }}" \
           https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
