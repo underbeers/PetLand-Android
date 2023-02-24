@@ -3,7 +3,9 @@ package com.petland.app.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -46,6 +48,8 @@ fun DefaultTextField(
     placeholder: String = "",
     error: String? = null,
     isError: Boolean = false,
+    isSuccessHintEnabled: Boolean = false,
+    successHint: String? = null,
     readOnly: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -101,6 +105,15 @@ fun DefaultTextField(
                     .align(Alignment.End),
                 text = error ?: "",
                 color = PetlandTheme.colors.error,
+                style = PetlandTheme.typography.outlinedButtonTitle,
+            )
+        } else if (isSuccessHintEnabled) {
+            Text(
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .align(Alignment.End),
+                text = successHint ?: "",
+                color = PetlandTheme.colors.secondary,
                 style = PetlandTheme.typography.outlinedButtonTitle,
             )
         }

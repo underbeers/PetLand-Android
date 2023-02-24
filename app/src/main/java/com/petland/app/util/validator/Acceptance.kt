@@ -1,10 +1,15 @@
 package com.petland.app.util.validator
 
 enum class Acceptance {
+    EMPTY,
     ACCEPTED,
+    UNSUPPORTED_CHAR,
     LENGTH_SHORT,
     AT_LEAST_ONE_CAPITAL_LETTER,
     AT_LEAST_ONE_DIGIT,
     AT_LEAST_ONE_SPECIAL_SYMBOL,
     INCORRECT_EMAIL,
+    AT_LEAST_SIX_DIGITS_IN_SENT_CODE,
+    DIGITS_UNSUPPORTED,
+    MISMATCH
 }

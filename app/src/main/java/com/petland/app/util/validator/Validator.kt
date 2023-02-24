@@ -5,9 +5,9 @@ import android.util.Patterns
 object Validator {
     private val upperCaseRegex = "^(?=.*[A-Z]).+\$".toRegex()
     private val digitRegex = "^(?=.*\\d).+\$".toRegex()
-    private val specialCharRegex =
-        "^(?=.*[!@#\$%^&*(),.?\":{}|<>]).+\$".toRegex()
+    private val specialCharRegex = "^(?=.*[!@#\$%^&*(),.?\":{}|<>]).+\$".toRegex()
     private const val minPasswordLength = 8
+    private const val sendCodeLength = 6
 
     fun validateEmail(email: String): AcceptableValue = AcceptableValue(
         value = email,
@@ -28,5 +28,31 @@ object Validator {
         }
     )
 
+    fun validateRepeatPassword(password: String, repeat: String) = AcceptableValue(
+        value = repeat,
+        acceptance = when (password) {
+            repeat -> Acceptance.ACCEPTED
+            else -> Acceptance.MISMATCH
+        }
+    )
+
+    fun validateName(name: String) = AcceptableValue(
+        value = name,
+        acceptance = when {
+            name.isEmpty() -> Acceptance.EMPTY
+            name.matches(specialCharRegex) -> Acceptance.UNSUPPORTED_CHAR
+            name.matches(digitRegex) -> Acceptance.DIGITS_UNSUPPORTED
+            else -> Acceptance.ACCEPTED
+        }
+    )
+
+    fun validateCode(code: String) = AcceptableValue(
+        value = code,
+        acceptance = when {
+            code.isEmpty() -> Acceptance.EMPTY
+            code.length != sendCodeLength -> Acceptance.AT_LEAST_SIX_DIGITS_IN_SENT_CODE
+            else -> Acceptance.ACCEPTED
+        }
+    )
 
 }
