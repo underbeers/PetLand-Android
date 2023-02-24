@@ -30,8 +30,8 @@ jobs:
       - name: Get commit details
         id: commit_info
         run: |
-          echo ::set_output name=commit_count::$(git rev-list --count HEAD)
-          echo ::set_output name=files_changed::${steps.files.outputs.all}
+          echo "commit_count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+          echo "files_changed=${steps.files.outputs.all}" >> $GITHUB_OUTPUT
 
       - name: Send a message about the latest commit
         run: |
