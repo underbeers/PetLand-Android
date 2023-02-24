@@ -23,19 +23,15 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v1
 
+      - name: Get files changed
+        id: files
+        uses: jitterbit/get-changed-files@v1
+
       - name: Get commit details
         id: commit_info
         run: |
-          echo $GITHUB_OUTPUT name=commit_count::$(git rev-list --count HEAD)
-          FILES_CHANGED="$(git diff-tree --no-commit-id --name-status --diff-filter=ADMR -r ${{ github.sha }})"
-          FILES_CHANGED="${FILES_CHANGED//$'A\t'/[A]~ }"
-          FILES_CHANGED="${FILES_CHANGED//$'D\t'/[D]~ }"
-          FILES_CHANGED="${FILES_CHANGED//$'M\t'/[M]~ }"
-          FILES_CHANGED="${FILES_CHANGED//$'R\t'/[R]~ }"
-          FILES_CHANGED="${FILES_CHANGED//'%'/'%25'}"
-          FILES_CHANGED="${FILES_CHANGED//$'\n'/'%0A'}"
-          FILES_CHANGED="${FILES_CHANGED//$'\r'/'%0D'}"
-          echo $GITHUB_OUTPUT name=files_changed::$FILES_CHANGED
+          echo ::set_output name=commit_count::$(git rev-list --count HEAD)
+          echo ::set_output name=files_changed::${steps.files.outputs.all}
 
       - name: Send a message about the latest commit
         run: |
@@ -48,7 +44,7 @@ jobs:
           <b>by:</b> <u>${{ github.actor }}</u>%0A\
           <b>commit #</b> ${{ steps.commit_info.outputs.commit_count }}%0A\
           <b>commit message:</b>%0A\
-          ${{ github.event.commits[0].message }}%0A\
+          ${{ github.event.head_commit.message }}%0A\
           %0A\
           <b>files changed:</b>%0A\
           <pre>${{ steps.commit_info.outputs.files_changed }}</pre>%0A\
