@@ -16,5 +16,3 @@ local.properties
 .misc
 .vsc
 /.idea
-/app/src/main/res/xml/data_extraction_rules.xml
-/app/src/main/res/xml/backup_rules.xml
