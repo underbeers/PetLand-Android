@@ -31,11 +31,11 @@ jobs:
         id: commit_info
         run: |
           echo "commit_count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
-          CHANGED_FILES=""
+          CHANGED_FILES=''
           for changed_file in ${{ steps.files.outputs.all }}; do
-            CHANGED_FILES = ${CHANGED_FILES} + "\n" + ${changed_file}
+            CHANGED_FILES='${changed_file}\n$CHANGED_FILES'
           done
-          echo "files_changed=${CHANGED_FILES}" >> $GITHUB_OUTPUT
+          echo -e "files_changed=${CHANGED_FILES}" >> $GITHUB_OUTPUT
 
       - name: Send a message about the latest commit
         run: |
