@@ -1,0 +1,146 @@
+#you need to setup 2 secrets in the repository
+#1. TELEGRAM_BOT_TOKEN - get it from here: https://core.telegram.org/bots#6-botfather
+#2. TELEGRAM_CHAT_ID - run /help or any other bot command from the bot chat or group and 
+#     run this command on terminal: curl -s https://api.telegram.org/bot<token>/getUpdates | jq '.result[0].message.chat.id'
+
+name: CI/CD-PetlandAndroid
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Clone repo
+        uses: actions/checkout@v1
+
+      - name: Get files changed
+        id: files
+        uses: jitterbit/get-changed-files@v1
+
+      - name: Get commit details
+        id: commit_info
+        run: |
+          echo "commit_count=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Send a message about the latest commit
+        run: |
+          curl \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d parse_mode=HTML \
+          -d text=\
+          "↗️ <b>PUSH</b>%0A\
+          <b>was made at:</b> ${{ github.repository }}%0A\
+          <b>by:</b> <u>${{ github.actor }}</u>%0A\
+          <b>commit #</b> ${{ steps.commit_info.outputs.commit_count }}%0A\
+          <b>commit message:</b>%0A\
+          <u>${{ github.event.head_commit.message }}</u>%0A\
+          %0A\
+          <u>files added:</u>%0A\
+          <pre>${{ steps.files.outputs.added }}</pre>%0A\
+          <u>files modified:</u>%0A\
+          <pre>${{ steps.files.outputs.modified }}</pre>%0A\
+          <u>files removed:</u>%0A\
+          <pre>${{ steps.files.outputs.removed }}</pre>%0A\
+          <u>files renamed:</u>%0A\
+          <pre>${{ steps.files.outputs.renamed }}</pre>%0A\
+          
+          %0A\
+          <b>commit link:</b> https://github.com/${{ github.repository }}/commit/${{ github.sha }}" \
+          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage
+
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Cache gradle stuff
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Run Gradle Build
+        run: ./gradlew build
+
+      - name: Run Gradle assembleDebug
+        run: ./gradlew assembleDebug
+
+      - name: Delete previous continuous release
+        run: |
+          if git show-ref --tags | egrep -q "refs/tags/continuous"
+          then
+              release_query=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -s \
+              https://api.github.com/repos/${{ github.repository }}/releases \
+              | jq '. | map(select(.tag_name == "continuous"))[0]')
+
+              curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
+              https://api.github.com/repos/${{ github.repository }}/releases/assets/$(echo $release_query | jq .assets[0].id)
+              curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
+              https://api.github.com/repos/${{ github.repository }}/releases/$(echo $release_query | jq .id)
+              git tag -d continuous
+              curl -i -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X DELETE \
+              https://api.github.com/repos/${{ github.repository }}/git/refs/tags/continuous
+              sleep 1 #required else next action will fail
+          else 
+              echo "tag not found"
+          fi
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: continuous
+          release_name: continuous-build-r${{ steps.commit_info.outputs.commit_count }}
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./app/build/outputs/apk/debug/app-debug.apk
+          asset_name: app-debug.apk
+          asset_content_type: application/zip
+
+      - name: Send apk to chat
+        run: |
+          curl \
+          -F chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -F parse_mode=HTML \
+          -F caption=\
+          "📱 <b>Debug Apk released</b> \
+          url: https://github.com/${{ github.repository }}/releases/tag/continuous" \
+          -F document=@"./app/build/outputs/apk/debug/app-debug.apk" \
+          https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendDocument
+
+      - name: Send a message if build fails
+        if: failure()
+        run: |
+          curl \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d parse_mode=HTML \
+          -d text=\
+          "❌ <b><u>BUILD FAILED!!!</u></b>%0A\
+          <b>job url:</b> https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+          "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
