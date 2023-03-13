@@ -46,11 +46,12 @@ object Validator {
         }
     )
 
-    fun validateCode(code: String) = AcceptableValue(
+    fun validateCode(code: String, receiveCode: String = "") = AcceptableValue(
         value = code,
         acceptance = when {
             code.isEmpty() -> Acceptance.EMPTY
             code.length != sendCodeLength -> Acceptance.AT_LEAST_SIX_DIGITS_IN_SENT_CODE
+            receiveCode.isNotEmpty() && receiveCode != code -> Acceptance.MISMATCH
             else -> Acceptance.ACCEPTED
         }
     )

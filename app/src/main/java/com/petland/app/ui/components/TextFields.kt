@@ -65,11 +65,11 @@ fun DefaultTextField(
                 .fillMaxWidth()
                 .shadow(
                     elevation = 5.dp,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .background(
                     color = White,
-                    shape = RoundedCornerShape(24.dp),
+                    shape = RoundedCornerShape(16.dp),
                 ),
             value = value,
             enabled = isEnabled,
@@ -85,7 +85,7 @@ fun DefaultTextField(
                 disabledBorderColor = Color.Transparent,
             ),
             isError = isError,
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(16.dp),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
@@ -164,11 +164,11 @@ fun PasswordTextField(
                 .padding(top = 8.dp)
                 .shadow(
                     elevation = 5.dp,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .background(
                     color = White,
-                    shape = RoundedCornerShape(24.dp),
+                    shape = RoundedCornerShape(16.dp),
                 ),
             value = value,
             textStyle = PetlandTheme.typography.outlinedButtonTitle,
@@ -182,7 +182,7 @@ fun PasswordTextField(
                 disabledBorderColor = Color.Transparent,
             ),
             isError = isError,
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(16.dp),
             visualTransformation = if (passwordVisible) {
                 VisualTransformation.None
             } else {

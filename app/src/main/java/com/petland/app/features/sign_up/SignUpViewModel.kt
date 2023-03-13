@@ -5,8 +5,10 @@ import com.petland.app.data.model.remote.body.User
 import com.petland.app.data.repository.AuthorizationRepository
 import com.petland.app.features.base.BaseViewModel
 import com.petland.app.util.DataState
+import com.petland.app.util.generateReceiveCode
 import com.petland.app.util.validator.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel
-@Inject constructor(private val repository: AuthorizationRepository) :
+@Inject constructor(private val authorizationRepository: AuthorizationRepository) :
     BaseViewModel<SignUpState, SignUpEffect>(SignUpState()) {
     init {
         collect(state, ::checkFilledFieldsInBothSteps)
@@ -24,7 +26,7 @@ class SignUpViewModel
 
     fun onSignUp() {
         viewModelScope.launch {
-            val signUpResponse = repository.signUp(
+            val signUpResponse = authorizationRepository.signUp(
                 User(
                     name = state.value.firstName.value,
                     surname = state.value.secondName.value,
@@ -35,17 +37,21 @@ class SignUpViewModel
             signUpResponse.onEach { response ->
                 when (response) {
                     is DataState.Success -> {
+                        setState {
+                            copy(
+                                isSignedUpSuccessfully = true,
+                                isErrorAppeared = false
+                            )
+                        }
                         postEffect(SignUpEffect.NavigateToLogIn)
-                        setState { copy(
-                            isSignedUpSuccessfully = true,
-                            isErrorAppeared = false
-                        ) }
                     }
                     is DataState.Error -> {
-                        setState { copy(
-                            isSignedUpSuccessfully = false,
-                            isErrorAppeared = true
-                        ) }
+                        setState {
+                            copy(
+                                isSignedUpSuccessfully = false,
+                                isErrorAppeared = true
+                            )
+                        }
                     }
                 }
             }.launchIn(viewModelScope)
@@ -54,12 +60,13 @@ class SignUpViewModel
 
     private fun checkFilledFieldsInBothSteps(signUpState: SignUpState) = setState {
         copy(
-            isPossibleToSendCode = email.value.isNotEmpty() && email.isAccepted && isCountDownStarted.not(),
-            isEmailVerified = sendCode.value == TEMP_CODE,
-            isAllowedMoveToNextStep = isPossibleToSendCode && firstName.value.isNotEmpty() && secondName.value.isNotEmpty()
-                    && firstName.isAccepted && secondName.isAccepted,
             isCountDownStarted = seconds != 0,
-            isAllFieldsFilled = isAllowedMoveToNextStep && signUpState.password.isAccepted && signUpState.repeatPassword.isAccepted
+            isPossibleToSendCode = email.value.isNotEmpty() && email.isAccepted && isCountDownStarted.not(),
+            isEmailVerified = sendCode.value == receiveCode && receiveCode.isNotEmpty(),
+            isAllowedMoveToSecondStep = firstName.value.isNotEmpty() && secondName.value.isNotEmpty()
+                    && firstName.isAccepted && secondName.isAccepted,
+            isAllowedMoveToThirdStep = email.value.isNotEmpty() && sendCode.value.isNotEmpty() && sendCode.isAccepted && email.isAccepted && isEmailVerified,
+            isAllowedToFinishSignUp = password.value.isNotEmpty() && repeatPassword.value.isNotEmpty() && isCheckBoxChecked && password.isAccepted && repeatPassword.isAccepted
         )
     }
 
@@ -70,12 +77,6 @@ class SignUpViewModel
     fun onNavigateToNextStep() = setState {
         copy(
             currentStep = state.value.currentStep.inc()
-        )
-    }
-
-    fun onNavigateToPreviousStep() = setState {
-        copy(
-            currentStep = state.value.currentStep.dec()
         )
     }
 
@@ -99,17 +100,35 @@ class SignUpViewModel
 
     fun onSendCodeChange(code: String) = setState {
         copy(
-            sendCode = Validator.validateCode(code),
+            sendCode = Validator.validateCode(code, receiveCode),
         )
     }
 
     fun onEmailVerify() {
+        viewModelScope.launch {
+            val generatedVerifyCode = generateReceiveCode()
+            val email = state.value.email.value
+            val sendCodeResponse = authorizationRepository.sendCode(
+                email = email,
+                code = generatedVerifyCode
+            )
+            sendCodeResponse.onEach { response ->
+                when (response) {
+                    is DataState.Success -> {
+                        setState { copy(receiveCode = generatedVerifyCode) }
+                    }
+                    is DataState.Error -> {
+                        setState { copy(receiveCode = TEMP_CODE) }
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
         startTimer()
     }
 
     private fun startTimer() {
-        viewModelScope.launch {
-            for(second in SEND_CODE_COUNTDOWN downTo  0){
+        viewModelScope.launch(Dispatchers.IO) {
+            for (second in SEND_CODE_COUNTDOWN downTo 0) {
                 setState { copy(seconds = second) }
                 delay(SECOND)
             }
@@ -136,7 +155,7 @@ class SignUpViewModel
     fun onRepeatPasswordChange(repeatPassword: String) = setState {
         copy(
             repeatPassword = Validator.validateRepeatPassword(
-                state.value.password.value, repeatPassword
+                password.value, repeatPassword
             )
         )
     }
@@ -147,14 +166,8 @@ class SignUpViewModel
         )
     }
 
-    fun onDialogExit() = setState {
-        copy(
-            isDialogDisplayed = false
-        )
-    }
-
     private companion object {
-        const val TEMP_CODE = "654321"
+        const val TEMP_CODE = "621352"
         const val SEND_CODE_COUNTDOWN = 30
         const val SECOND = 1000L
     }

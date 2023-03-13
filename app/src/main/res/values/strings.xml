@@ -41,5 +41,8 @@
     <string name="registration_screen_countdown_ends_with_other_digits">Подождите %d секунд</string>
     <string name="registration_screen_term_of_use">Согласие с пользовательским соглашением</string>
     <string name="registration_screen_create_account">Создать аккаунт</string>
-    <string name="registration_screen_navigate_back">Назад</string>
+    <string name="registration_screen_receive_code">Код</string>
+    <string name="registration_screen_receive_code_mismatch">Неверный код</string>
+    <string name="registration_screen_error">Ошибка регистрации</string>
+
 </resources>

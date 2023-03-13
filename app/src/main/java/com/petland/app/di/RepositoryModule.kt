@@ -1,6 +1,6 @@
 package com.petland.app.di
 
-import com.petland.app.data.model.ApiService
+import com.petland.app.data.ApiService
 import com.petland.app.data.repository.AuthorizationRepository
 import dagger.Module
 import dagger.Provides

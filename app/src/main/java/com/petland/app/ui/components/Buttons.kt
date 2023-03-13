@@ -98,7 +98,7 @@ fun DefaultOutlinedButton(
 ) {
     Column(modifier = modifier) {
         OutlinedButton(
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(16.dp),
             border = BorderStroke(
                 width = 2.dp,
                 color = when {
@@ -129,7 +129,6 @@ fun DefaultOutlinedButton(
         if (isCounterEnabled) {
             Text(
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(top = 4.dp),
                 text = seconds ?: "",
                 textAlign = TextAlign.Center,
