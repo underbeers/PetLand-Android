@@ -173,16 +173,15 @@ fun LoginContent(
         )
         if (state.isErrorAppeared && !state.isLoggedSuccessfully) {
             Text(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp),
+                modifier = Modifier.padding(vertical = 5.dp),
                 text = stringResource(id = R.string.login_screen_authorization_error),
-                textAlign = TextAlign.Center,
                 style = PetlandTheme.typography.outlinedButtonTitle,
                 color = PetlandTheme.colors.error
             )
         }
         DefaultButton(
             modifier = Modifier
-                .padding(vertical = 20.dp)
+                .padding(vertical = 10.dp)
                 .width(100.dp),
             text = stringResource(id = R.string.login_screen_sign_in),
             enabled = state.isLogInButtonEnabled,
@@ -190,7 +189,7 @@ fun LoginContent(
         )
         Text(
             modifier = Modifier
-                .padding(start = 30.dp, end = 30.dp, top = 15.dp, bottom = 2.dp),
+                .padding(start = 30.dp, end = 30.dp, top = 10.dp, bottom = 2.dp),
             text = stringResource(id = R.string.login_screen_have_not_signed_up),
             style = PetlandTheme.typography.smallText,
             color = PetlandTheme.colors.textLight,

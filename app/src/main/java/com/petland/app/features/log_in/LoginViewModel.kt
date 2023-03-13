@@ -78,7 +78,7 @@ class LoginViewModel
 
     private fun checkFilledFields(state: LoginState) = setState {
         copy(
-            isLogInButtonEnabled = state.login.isAccepted && state.password.isAccepted
+            isLogInButtonEnabled = state.login.isAccepted && state.password.isAccepted && state.login.value.isNotEmpty() && state.password.value.isNotEmpty()
         )
     }
 

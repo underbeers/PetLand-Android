@@ -12,10 +12,37 @@
     <string name="login_screen_email_error">Некорректный формат</string>
     <string name="login_screen_authorization_error">Неверный логин или пароль</string>
     <string name="login_screen_success_title">Вы авторизовались!</string>
-    <string name="login_screen_success_message">Скоро будет добавлена регистрация</string>
+    <string name="login_screen_success_message">Скоро будет добавлена страница с аккаунтом</string>
 
     <string name="password_length_short">Не меньше 8 символов</string>
     <string name="password_at_least_one_capital_letter">Как минимум 1 заглавная буква</string>
     <string name="password_at_least_one_special_symbol">Как минимум 1 специальный символ</string>
     <string name="password_at_least_one_digit">Как минимум 1 цифра</string>
+    <string name="password_mismatch">Пароли не совпадают</string>
+
+    <string name="text_field_unsupported_char">Неподдерживаемый символ</string>
+    <string name="text_field_empty_input">Обязательный поле</string>
+    <string name="text_field_digit_is_not_allowed">Исключите цифры</string>
+
+    <string name="registration_screen_title">Регистрация</string>
+    <string name="registration_screen_first_name">Имя</string>
+    <string name="registration_screen_last_name">Фамилия</string>
+    <string name="registration_screen_email">Email</string>
+    <string name="registration_screen_send_code">Отправить код</string>
+    <string name="registration_screen_send_code_length">Необходимо ввести 6 цифр</string>
+    <string name="registration_screen_email_verified">Email подтвержден</string>
+    <string name="registration_screen_next_step">Следующий шаг</string>
+    <string name="registration_screen_account_already_exists">У вас уже есть аккаунт?</string>
+    <string name="registration_screen_login">Войти</string>
+    <string name="registration_screen_password_create">Придумайте пароль</string>
+    <string name="registration_screen_password_confirmation">Подтвердите пароль</string>
+    <string name="registration_screen_countdown_ends_with_one">Подождите %d секунду</string>
+    <string name="registration_screen_countdown_ends_from_two_to_four">Подождите %d секунды</string>
+    <string name="registration_screen_countdown_ends_with_other_digits">Подождите %d секунд</string>
+    <string name="registration_screen_term_of_use">Согласие с пользовательским соглашением</string>
+    <string name="registration_screen_create_account">Создать аккаунт</string>
+    <string name="registration_screen_receive_code">Код</string>
+    <string name="registration_screen_receive_code_mismatch">Неверный код</string>
+    <string name="registration_screen_error">Ошибка регистрации</string>
+
 </resources>

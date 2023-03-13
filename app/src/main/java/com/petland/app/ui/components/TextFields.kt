@@ -3,7 +3,9 @@ package com.petland.app.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -46,6 +48,8 @@ fun DefaultTextField(
     placeholder: String = "",
     error: String? = null,
     isError: Boolean = false,
+    isSuccessHintEnabled: Boolean = false,
+    successHint: String? = null,
     readOnly: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -61,11 +65,11 @@ fun DefaultTextField(
                 .fillMaxWidth()
                 .shadow(
                     elevation = 5.dp,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .background(
                     color = White,
-                    shape = RoundedCornerShape(24.dp),
+                    shape = RoundedCornerShape(16.dp),
                 ),
             value = value,
             enabled = isEnabled,
@@ -81,7 +85,7 @@ fun DefaultTextField(
                 disabledBorderColor = Color.Transparent,
             ),
             isError = isError,
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(16.dp),
             visualTransformation = visualTransformation,
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
@@ -101,6 +105,15 @@ fun DefaultTextField(
                     .align(Alignment.End),
                 text = error ?: "",
                 color = PetlandTheme.colors.error,
+                style = PetlandTheme.typography.outlinedButtonTitle,
+            )
+        } else if (isSuccessHintEnabled) {
+            Text(
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .align(Alignment.End),
+                text = successHint ?: "",
+                color = PetlandTheme.colors.secondary,
                 style = PetlandTheme.typography.outlinedButtonTitle,
             )
         }
@@ -151,11 +164,11 @@ fun PasswordTextField(
                 .padding(top = 8.dp)
                 .shadow(
                     elevation = 5.dp,
-                    shape = RoundedCornerShape(24.dp)
+                    shape = RoundedCornerShape(16.dp)
                 )
                 .background(
                     color = White,
-                    shape = RoundedCornerShape(24.dp),
+                    shape = RoundedCornerShape(16.dp),
                 ),
             value = value,
             textStyle = PetlandTheme.typography.outlinedButtonTitle,
@@ -169,7 +182,7 @@ fun PasswordTextField(
                 disabledBorderColor = Color.Transparent,
             ),
             isError = isError,
-            shape = RoundedCornerShape(24.dp),
+            shape = RoundedCornerShape(16.dp),
             visualTransformation = if (passwordVisible) {
                 VisualTransformation.None
             } else {
