@@ -1,4 +1,4 @@
-package vn.takomo.app.ext
+package com.petland.app.ext
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

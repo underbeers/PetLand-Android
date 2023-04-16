@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import vn.takomo.app.ext.collect
+import com.petland.app.ext.collect
 import javax.inject.Inject
 
 @HiltViewModel
