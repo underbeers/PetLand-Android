@@ -38,16 +38,14 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(errorInterceptor: Interceptor): OkHttpClient {
-        val okHttpClient = OkHttpClient().newBuilder()
-        okHttpClient.callTimeout(15, TimeUnit.SECONDS)
-        okHttpClient.connectTimeout(15, TimeUnit.SECONDS)
-        okHttpClient.readTimeout(15, TimeUnit.SECONDS)
-        okHttpClient.writeTimeout(15, TimeUnit.SECONDS)
-        okHttpClient.addInterceptor(errorInterceptor)
-        okHttpClient.build()
-        return okHttpClient.build()
-    }
+    fun provideOkHttpClient(errorInterceptor: Interceptor): OkHttpClient =
+        OkHttpClient().newBuilder()
+            .callTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(errorInterceptor)
+            .build()
 
     @Singleton
     @Provides
@@ -55,13 +53,12 @@ object NetworkModule {
         baseUrl: String,
         converterFactory: Converter.Factory,
         okHttpClient: OkHttpClient,
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(converterFactory)
-            .client(okHttpClient)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(converterFactory)
+        .client(okHttpClient)
+        .build()
+
 
     @Singleton
     @Provides
