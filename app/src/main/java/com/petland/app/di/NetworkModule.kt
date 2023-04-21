@@ -21,7 +21,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideBaseURL(): String {
-        return ApiURL.BASE_URL
+        return ApiURL.BACKEND_URL
     }
 
     @Singleton

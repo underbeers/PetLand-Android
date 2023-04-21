@@ -16,6 +16,7 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.petland.app.R
+import com.petland.app.data.ApiURL.RESTORE_PASSWORD
 import com.petland.app.navigation.Screen
 import com.petland.app.ui.components.*
 import com.petland.app.ui.theme.PetlandTheme
@@ -74,6 +76,7 @@ fun LoginContent(
 ) {
     val focusManager = LocalFocusManager.current
     val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     Image(
@@ -159,7 +162,8 @@ fun LoginContent(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 30.dp, vertical = 5.dp),
+                .padding(horizontal = 30.dp, vertical = 5.dp)
+                .clickable { uriHandler.openUri(RESTORE_PASSWORD) },
             text = stringResource(id = R.string.login_screen_forgot_password),
             style = PetlandTheme.typography.underlinedText,
             textAlign = TextAlign.End,
