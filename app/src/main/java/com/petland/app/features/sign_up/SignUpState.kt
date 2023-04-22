@@ -10,6 +10,7 @@ data class SignUpState(
     val firstName: AcceptableValue = AcceptableValue(),
     val secondName: AcceptableValue = AcceptableValue(),
     val email: AcceptableValue = AcceptableValue(),
+    val emailToVerify: String = "",
     val sendCode: AcceptableValue = AcceptableValue(),
     val password: AcceptableValue = AcceptableValue(),
     val repeatPassword: AcceptableValue = AcceptableValue(),
