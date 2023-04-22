@@ -62,7 +62,7 @@ class SignUpViewModel
         copy(
             isCountDownStarted = seconds != 0,
             isPossibleToSendCode = email.value.isNotEmpty() && email.isAccepted && isCountDownStarted.not(),
-            isEmailVerified = sendCode.value == receiveCode && receiveCode.isNotEmpty(),
+            isEmailVerified = sendCode.value == receiveCode && receiveCode.isNotEmpty() && emailToVerify == email.value,
             isAllowedMoveToSecondStep = firstName.value.isNotEmpty() && secondName.value.isNotEmpty()
                     && firstName.isAccepted && secondName.isAccepted,
             isAllowedMoveToThirdStep = email.value.isNotEmpty() && sendCode.value.isNotEmpty() && sendCode.isAccepted && email.isAccepted && isEmailVerified,
@@ -108,6 +108,7 @@ class SignUpViewModel
         viewModelScope.launch {
             val generatedVerifyCode = generateReceiveCode()
             val email = state.value.email.value
+            setState { copy(emailToVerify = email) }
             val sendCodeResponse = authorizationRepository.sendCode(
                 email = email,
                 code = generatedVerifyCode
