@@ -41,6 +41,16 @@ data class PetlandTypography(
         fontFamily = mulish,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp
+    ),
+    val navigationTitle: TextStyle = TextStyle(
+        fontFamily = mulish,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 10.sp
+    ),
+    val suggestionTitle: TextStyle = TextStyle(
+        fontFamily = mulish,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp
     )
 )
 

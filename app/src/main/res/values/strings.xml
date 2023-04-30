@@ -44,5 +44,14 @@
     <string name="registration_screen_receive_code">Код</string>
     <string name="registration_screen_receive_code_mismatch">Неверный код</string>
     <string name="registration_screen_error">Ошибка регистрации</string>
+    
+    <string name="chat_screen_title">Чаты</string>
+    <string name="profile_screen_title">Аккаунт</string>
+    <string name="favorites_screen_title">Избранное</string>
+    <string name="services_screen_title">Сервисы</string>
+    <string name="bulletin_board_screen_title">Объявления</string>
+
+    <string name="profile_screen_unauthorized">Войдите или зарегистрируйтесь, чтобы пользоваться всеми функциями PetLand</string>
+    <string name="profile_screen_authorize_button">Войти или зарегистрироваться</string>
 
 </resources>

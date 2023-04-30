@@ -3,6 +3,7 @@ package com.petland.app.features.sign_up
 import androidx.lifecycle.viewModelScope
 import com.petland.app.data.model.remote.body.User
 import com.petland.app.data.repository.AuthorizationRepository
+import com.petland.app.ext.collect
 import com.petland.app.features.base.BaseViewModel
 import com.petland.app.util.DataState
 import com.petland.app.util.generateReceiveCode
@@ -10,10 +11,8 @@ import com.petland.app.util.validator.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import com.petland.app.ext.collect
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,7 +53,7 @@ class SignUpViewModel
                         }
                     }
                 }
-            }.launchIn(viewModelScope)
+            }
         }
     }
 
@@ -114,15 +113,10 @@ class SignUpViewModel
                 code = generatedVerifyCode
             )
             sendCodeResponse.onEach { response ->
-                when (response) {
-                    is DataState.Success -> {
-                        setState { copy(receiveCode = generatedVerifyCode) }
-                    }
-                    is DataState.Error -> {
-                        setState { copy(receiveCode = TEMP_CODE) }
-                    }
+                if (response is DataState.Success) {
+                    setState { copy(receiveCode = generatedVerifyCode) }
                 }
-            }.launchIn(viewModelScope)
+            }
         }
         startTimer()
     }
@@ -168,7 +162,6 @@ class SignUpViewModel
     }
 
     private companion object {
-        const val TEMP_CODE = "621352"
         const val SEND_CODE_COUNTDOWN = 30
         const val SECOND = 1000L
     }

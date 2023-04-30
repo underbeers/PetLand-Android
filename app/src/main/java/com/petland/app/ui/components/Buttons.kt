@@ -61,7 +61,7 @@ fun DefaultButton(
     ) {
         Text(
             text = text,
-            style = PetlandTheme.typography.defaultButtonText
+            style = PetlandTheme.typography.bigTitle,
         )
     }
 }
