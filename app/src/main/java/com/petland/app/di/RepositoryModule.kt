@@ -1,6 +1,7 @@
 package com.petland.app.di
 
 import com.petland.app.data.ApiService
+import com.petland.app.data.repository.AccountRepository
 import com.petland.app.data.repository.AuthorizationRepository
 import dagger.Module
 import dagger.Provides
@@ -19,5 +20,13 @@ object RepositoryModule {
         return AuthorizationRepository(
             apiService
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideAccountRepository(
+        apiService: ApiService
+    ): AccountRepository {
+        return AccountRepository(apiService)
     }
 }
