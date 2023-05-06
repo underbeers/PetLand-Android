@@ -3,6 +3,7 @@ package com.petland.app.di
 import com.petland.app.data.ApiService
 import com.petland.app.data.repository.AccountRepository
 import com.petland.app.data.repository.AuthorizationRepository
+import com.petland.app.data.store.Store
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,9 +17,10 @@ object RepositoryModule {
     @Provides
     fun provideMovieRepository(
         apiService: ApiService,
+        store: Store,
     ): AuthorizationRepository {
         return AuthorizationRepository(
-            apiService
+            apiService, store
         )
     }
 

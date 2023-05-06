@@ -17,4 +17,7 @@ interface ApiService {
 
     @POST(ApiURL.SEND_CODE)
     suspend fun sendCode(@Body sendCodeBody: SendCodeBody)
+
+    @POST(ApiURL.GET_USER_INFO)
+    suspend fun getUserInfo(): User
 }
