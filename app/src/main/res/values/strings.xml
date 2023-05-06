@@ -54,4 +54,6 @@
     <string name="profile_screen_unauthorized">Войдите или зарегистрируйтесь, чтобы пользоваться всеми функциями PetLand</string>
     <string name="profile_screen_authorize_button">Войти или зарегистрироваться</string>
 
+    <string name="settings_screen_title">Настройки</string>
+
 </resources>

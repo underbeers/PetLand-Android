@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -51,6 +52,7 @@ fun LoginScreen(
                 is LoginEffect.NavigateToAccount -> {
                     navController.navigate(Screen.Profile.route)
                 }
+
                 is LoginEffect.NavigateToSignUp -> {
                     navController.navigate(Screen.SignUp.route)
                 }
@@ -72,12 +74,6 @@ fun LoginContent(
     val focusManager = LocalFocusManager.current
     val uriHandler = LocalUriHandler.current
     val scrollState = rememberScrollState()
-    Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(R.drawable.background),
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +82,11 @@ fun LoginContent(
                     onTap = { focusManager.clearFocus() },
                 )
             }
-            .verticalScroll(state = scrollState),
+            .verticalScroll(state = scrollState)
+            .paint(
+                painterResource(id = R.drawable.background),
+                contentScale = ContentScale.FillBounds
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(

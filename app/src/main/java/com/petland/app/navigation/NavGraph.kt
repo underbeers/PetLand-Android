@@ -3,6 +3,7 @@ package com.petland.app.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -39,14 +40,29 @@ fun Navigation(
         composable(Screen.Chat.route) {
             ChatScreen(navController)
         }
-        composable(Screen.Profile.route){
+        composable(Screen.Profile.route) {
             ProfileScreen(navController = navController)
+        }
+        composable(Screen.SettingsScreen.route) {
+
         }
     }
 }
 
 @Composable
-fun currentRoute(navController: NavController): String? {
+fun currentRoute(navController: NavController): String {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route?.substringBeforeLast("/")
+    return navBackStackEntry?.destination?.route?.substringBeforeLast("/") ?: ""
 }
+
+@Composable
+fun getTitleOfScreen(navController: NavController): String = when (currentRoute(navController)) {
+        Screen.SettingsScreen.route -> stringResource(Screen.SettingsScreen.title)
+        Screen.Chat.route -> stringResource(Screen.Chat.title)
+        Screen.Favorites.route -> stringResource(Screen.Favorites.title)
+        Screen.Profile.route -> stringResource(Screen.Profile.title)
+        Screen.BulletinBoard.route -> stringResource(Screen.BulletinBoard.title)
+        Screen.Services.route -> stringResource(Screen.Services.title)
+        else -> ""
+    }
+

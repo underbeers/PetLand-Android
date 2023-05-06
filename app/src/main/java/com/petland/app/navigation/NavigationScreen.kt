@@ -22,6 +22,8 @@ sealed class Screen(
     object Login : Screen("login_screen")
     object SignUp: Screen("sign_up")
 
+    object SettingsScreen: Screen("settings_screen", title = R.string.settings_screen_title)
+
     object BulletinBoard : Screen("bulletin_board", title = R.string.bulletin_board_screen_title, navIcon = {
         Icon(
             painter = painterResource(id = R.drawable.ic_bulletin_board),
