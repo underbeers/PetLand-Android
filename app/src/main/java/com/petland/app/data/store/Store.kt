@@ -16,6 +16,10 @@ class Store(private val context: Context) {
         it[KEY_AUTHORIZATION_TOKEN] = accessToken
     }
 
+    suspend fun clearSavedData() = edit {
+        it[KEY_AUTHORIZATION_TOKEN] = ""
+    }
+
     private fun <T> flowOf(
         key: Preferences.Key<T>,
         defaultValue: T,

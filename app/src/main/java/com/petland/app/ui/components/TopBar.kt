@@ -4,13 +4,14 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.Logout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -22,7 +23,8 @@ fun TopBar(
     isNavigationBackEnabled: Boolean,
     title: String,
     isVisible: MutableState<Boolean>,
-    onSettingsClicked: () -> Unit,
+    isLogoutButtonVisible: Boolean = false,
+    onLogoutClicked: () -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     AnimatedVisibility(
@@ -47,8 +49,14 @@ fun TopBar(
             } else null,
             backgroundColor = PetlandTheme.colors.background,
             actions = {
-                IconButton(onClick = onSettingsClicked) {
-                    Icon(Icons.Filled.MoreHoriz, null)
+                if (isNavigationBackEnabled.not() && isLogoutButtonVisible) {
+                    IconButton(onClick = onLogoutClicked) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            imageVector = Icons.Filled.Logout,
+                            contentDescription = null
+                        )
+                    }
                 }
             }
         )

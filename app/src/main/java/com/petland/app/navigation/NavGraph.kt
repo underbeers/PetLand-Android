@@ -13,9 +13,12 @@ import com.petland.app.features.bulletin_board.BulletinBoardScreen
 import com.petland.app.features.chat.ChatScreen
 import com.petland.app.features.favorites.FavoritesScreen
 import com.petland.app.features.log_in.LoginScreen
+import com.petland.app.features.pet.PetScreen
 import com.petland.app.features.profile.ProfileScreen
+import com.petland.app.features.rating.RatingScreen
 import com.petland.app.features.services.ServicesScreen
 import com.petland.app.features.sign_up.SignUpScreen
+import com.petland.app.features.user_advert.UserAdvertScreen
 
 @Composable
 fun Navigation(
@@ -43,8 +46,14 @@ fun Navigation(
         composable(Screen.Profile.route) {
             ProfileScreen(navController = navController)
         }
-        composable(Screen.SettingsScreen.route) {
-
+        composable(Screen.Rating.route) {
+            RatingScreen()
+        }
+        composable(Screen.AdvertProfile.route) {
+            UserAdvertScreen()
+        }
+        composable(Screen.Pet.route) {
+            PetScreen()
         }
     }
 }
@@ -63,6 +72,9 @@ fun getTitleOfScreen(navController: NavController): String = when (currentRoute(
         Screen.Profile.route -> stringResource(Screen.Profile.title)
         Screen.BulletinBoard.route -> stringResource(Screen.BulletinBoard.title)
         Screen.Services.route -> stringResource(Screen.Services.title)
+        Screen.Rating.route -> stringResource(Screen.Rating.title)
+        Screen.Pet.route -> stringResource(Screen.Pet.title)
+        Screen.AdvertProfile.route -> stringResource(id = Screen.AdvertProfile.title)
         else -> ""
     }
 

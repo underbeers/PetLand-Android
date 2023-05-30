@@ -1,7 +1,7 @@
 package com.petland.app.features.sign_up
 
 import androidx.lifecycle.viewModelScope
-import com.petland.app.data.model.remote.body.User
+import com.petland.app.data.model.remote.body.UserBody
 import com.petland.app.data.repository.AuthorizationRepository
 import com.petland.app.ext.collect
 import com.petland.app.features.base.BaseViewModel
@@ -11,6 +11,7 @@ import com.petland.app.util.validator.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class SignUpViewModel
     fun onSignUp() {
         viewModelScope.launch {
             val signUpResponse = authorizationRepository.signUp(
-                User(
+                UserBody(
                     name = state.value.firstName.value,
                     surname = state.value.secondName.value,
                     email = state.value.email.value,
@@ -53,7 +54,7 @@ class SignUpViewModel
                         }
                     }
                 }
-            }
+            }.launchIn(viewModelScope)
         }
     }
 
@@ -116,7 +117,7 @@ class SignUpViewModel
                 if (response is DataState.Success) {
                     setState { copy(receiveCode = generatedVerifyCode) }
                 }
-            }
+            }.launchIn(viewModelScope)
         }
         startTimer()
     }

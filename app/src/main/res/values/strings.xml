@@ -46,14 +46,25 @@
     <string name="registration_screen_error">Ошибка регистрации</string>
     
     <string name="chat_screen_title">Чаты</string>
-    <string name="profile_screen_title">Аккаунт</string>
+    <string name="profile_screen_title">Профиль</string>
     <string name="favorites_screen_title">Избранное</string>
     <string name="services_screen_title">Сервисы</string>
     <string name="bulletin_board_screen_title">Объявления</string>
 
     <string name="profile_screen_unauthorized">Войдите или зарегистрируйтесь, чтобы пользоваться всеми функциями PetLand</string>
     <string name="profile_screen_authorize_button">Войти или зарегистрироваться</string>
-
+    <string name="profile_screen_name">%1$s\n%2$s</string>
+    <string name="profile_screen_sign_up_date">На Petland c %1$s %2$s</string>
+    <string name="profile_screen_description">Описание:</string>
+    <string name="profile_screen_pets_title">Питомцы</string>
+    <string name="profile_screen_pets_description_singular">%1$d добавленный питомец</string>
+    <string name="profile_screen_pets_description">%1$d добавленных питомца</string>
+    <string name="profile_screen_rating">Рейтинг</string>
+    <string name="profile_screen_advert_description">%1$d активных объявления</string>
+    <string name="profile_screen_advert_description_singular">%1$d активное объявление</string>
+    <string name="profile_screen_advert_description_zero_adverts">%1$d активных объявлений</string>
+    <string name="profile_screen_rating_review">%1$d отзыв</string>
+    <string name="profile_screen_rating_reviews">%1$d отзыва</string>
     <string name="settings_screen_title">Настройки</string>
 
 </resources>

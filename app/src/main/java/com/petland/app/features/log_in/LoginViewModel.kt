@@ -7,6 +7,7 @@ import com.petland.app.features.base.BaseViewModel
 import com.petland.app.util.DataState
 import com.petland.app.util.validator.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,7 +36,7 @@ class LoginViewModel
                         setState { copy(isErrorAppeared = true) }
                     }
                 }
-            }
+            }.launchIn(viewModelScope)
         }
         setState { copy(isLoading = false) }
     }

@@ -3,7 +3,7 @@ package com.petland.app.data.repository
 import com.petland.app.data.ApiService
 import com.petland.app.data.model.remote.body.LoginBody
 import com.petland.app.data.model.remote.body.SendCodeBody
-import com.petland.app.data.model.remote.body.User
+import com.petland.app.data.model.remote.body.UserBody
 import com.petland.app.data.model.remote.response.LoginResponse
 import com.petland.app.data.store.Store
 import com.petland.app.util.DataState
@@ -18,19 +18,19 @@ class AuthorizationRepository @Inject constructor(
     suspend fun logIn(login: String, password: String): Flow<DataState<LoginResponse>> = flow {
         try {
             val response = apiService.logIn(LoginBody(login, password))
-            store.setAccessToken(response.accessToken)
+            store.setAccessToken("Bearer ${response.accessToken}")
             emit(DataState.Success(response))
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.e("login error", e.message)
             emit(DataState.Error(e))
         }
     }
 
-    suspend fun signUp(user: User): Flow<DataState<Unit>> = flow {
+    suspend fun signUp(userBody: UserBody): Flow<DataState<Unit>> = flow {
         try {
-            val response = apiService.signUp(user)
+            val response = apiService.signUp(userBody)
             emit(DataState.Success(response))
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             Timber.e("sign up error", e.message)
             emit(DataState.Error(e))
         }
