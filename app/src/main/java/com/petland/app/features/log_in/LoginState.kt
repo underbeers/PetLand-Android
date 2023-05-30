@@ -8,8 +8,6 @@ data class LoginState(
     val isPasswordVisible: Boolean = false,
     val isCheckBoxChecked: Boolean = false,
     val isLoading: Boolean = false,
-    val isLoggedSuccessfully: Boolean = false,
     val isErrorAppeared:Boolean = false,
-    val isDialogDisplayed: Boolean = false,
     val isLogInButtonEnabled: Boolean = false,
 )

@@ -2,6 +2,7 @@ package com.petland.app.features.log_in
 
 import androidx.lifecycle.viewModelScope
 import com.petland.app.data.repository.AuthorizationRepository
+import com.petland.app.ext.collect
 import com.petland.app.features.base.BaseViewModel
 import com.petland.app.util.DataState
 import com.petland.app.util.validator.Validator
@@ -9,8 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import com.petland.app.ext.collect
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,29 +21,19 @@ class LoginViewModel
     }
 
     fun onLogIn() {
-        setState { copy(
-            isLoading = true,
-            isDialogDisplayed = true
-        ) }
+        setState { copy(isLoading = true) }
         viewModelScope.launch {
-            val login = state.value.login
-            val password = state.value.password
-            val logInUserResponse = repository.logIn(login.value, password.value)
-            logInUserResponse.onEach { response ->
+            val login = state.value.login.value
+            val password = state.value.password.value
+            val logInResponse = repository.logIn(login, password)
+            logInResponse.onEach { response ->
                 when (response) {
                     is DataState.Success -> {
-                        setState { copy(
-                            isLoggedSuccessfully = true,
-                            isErrorAppeared = false,
-                        ) }
+                        setState { copy(isErrorAppeared = false) }
                         postEffect(LoginEffect.NavigateToAccount)
                     }
                     is DataState.Error -> {
-                        Timber.e(response.exception, "login error")
-                        setState { copy(
-                            isErrorAppeared = true,
-                            isLoggedSuccessfully = false,
-                        ) }
+                        setState { copy(isErrorAppeared = true) }
                     }
                 }
             }.launchIn(viewModelScope)
@@ -61,12 +50,6 @@ class LoginViewModel
     fun onPasswordChange(password: String) = setState {
         copy(
             password = Validator.validatePassword(password)
-        )
-    }
-
-    fun onDialogExit() = setState {
-        copy(
-            isDialogDisplayed = false
         )
     }
 

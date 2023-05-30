@@ -9,7 +9,9 @@ data class PetlandColors(
     val secondary: Color,
     val text: Color,
     val textLight: Color,
-    val error: Color
+    val error: Color,
+    val background: Color,
+    val header4: Color
 )
 
 //Theme colors
@@ -19,11 +21,14 @@ private val text = Color(0xFF4F4F4F)
 private val textLight = Color(0xFFAEB9CC)
 private val error = Color(0xFFFF5454)
 private val primaryLight = Color(0xFFF4B691)
+private val background = Color(0xFFFFFFFF)
+private val header4 = Color(0xFF4F4F4F)
 
 //Additional
 val White = Color(0xFFFFFFFF)
-val Black = Color(0xFF000000)
 val ScreenOpacity = Color(0xBF333333)
+val StarEnabledColor = Color(0xFFFFD700)
+val StarDisabledColor = Color(0xFFA2ADB1)
 
 val PetlandLightPalette = PetlandColors(
     primary = primary,
@@ -31,7 +36,9 @@ val PetlandLightPalette = PetlandColors(
     secondary = secondary,
     text = text,
     textLight = textLight,
-    error = error
+    error = error,
+    background = background,
+    header4 = header4
 )
 
 val LocalPetlandColors = staticCompositionLocalOf<PetlandColors> {

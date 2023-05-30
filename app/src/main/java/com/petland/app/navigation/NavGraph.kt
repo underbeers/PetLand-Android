@@ -3,6 +3,7 @@ package com.petland.app.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,9 +13,12 @@ import com.petland.app.features.bulletin_board.BulletinBoardScreen
 import com.petland.app.features.chat.ChatScreen
 import com.petland.app.features.favorites.FavoritesScreen
 import com.petland.app.features.log_in.LoginScreen
+import com.petland.app.features.pet.PetScreen
 import com.petland.app.features.profile.ProfileScreen
+import com.petland.app.features.rating.RatingScreen
 import com.petland.app.features.services.ServicesScreen
 import com.petland.app.features.sign_up.SignUpScreen
+import com.petland.app.features.user_advert.UserAdvertScreen
 
 @Composable
 fun Navigation(
@@ -39,14 +43,38 @@ fun Navigation(
         composable(Screen.Chat.route) {
             ChatScreen(navController)
         }
-        composable(Screen.Profile.route){
+        composable(Screen.Profile.route) {
             ProfileScreen(navController = navController)
+        }
+        composable(Screen.Rating.route) {
+            RatingScreen()
+        }
+        composable(Screen.AdvertProfile.route) {
+            UserAdvertScreen()
+        }
+        composable(Screen.Pet.route) {
+            PetScreen()
         }
     }
 }
 
 @Composable
-fun currentRoute(navController: NavController): String? {
+fun currentRoute(navController: NavController): String {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route?.substringBeforeLast("/")
+    return navBackStackEntry?.destination?.route?.substringBeforeLast("/") ?: ""
 }
+
+@Composable
+fun getTitleOfScreen(navController: NavController): String = when (currentRoute(navController)) {
+        Screen.SettingsScreen.route -> stringResource(Screen.SettingsScreen.title)
+        Screen.Chat.route -> stringResource(Screen.Chat.title)
+        Screen.Favorites.route -> stringResource(Screen.Favorites.title)
+        Screen.Profile.route -> stringResource(Screen.Profile.title)
+        Screen.BulletinBoard.route -> stringResource(Screen.BulletinBoard.title)
+        Screen.Services.route -> stringResource(Screen.Services.title)
+        Screen.Rating.route -> stringResource(Screen.Rating.title)
+        Screen.Pet.route -> stringResource(Screen.Pet.title)
+        Screen.AdvertProfile.route -> stringResource(id = Screen.AdvertProfile.title)
+        else -> ""
+    }
+

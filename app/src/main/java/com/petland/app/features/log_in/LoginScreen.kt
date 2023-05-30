@@ -3,16 +3,14 @@ package com.petland.app.features.log_in
 import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.relocation.BringIntoViewRequester
-import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
@@ -31,7 +29,6 @@ import com.petland.app.navigation.Screen
 import com.petland.app.ui.components.*
 import com.petland.app.ui.theme.PetlandTheme
 import com.petland.app.util.validator.Acceptance
-import kotlinx.coroutines.launch
 
 
 @Composable
@@ -48,12 +45,14 @@ fun LoginScreen(
         onLogin = loginViewModel::onLogIn,
         onSignUp = loginViewModel::onSignUp,
         onCheckedChange = loginViewModel::onCheckedChange,
-        onDialogExit = loginViewModel::onDialogExit
     )
     LaunchedEffect(loginViewModel.effect) {
         loginViewModel.effect.collect { effect ->
             when (effect) {
-                is LoginEffect.NavigateToAccount -> {}
+                is LoginEffect.NavigateToAccount -> {
+                    navController.navigate(Screen.Profile.route)
+                }
+
                 is LoginEffect.NavigateToSignUp -> {
                     navController.navigate(Screen.SignUp.route)
                 }
@@ -62,7 +61,6 @@ fun LoginScreen(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LoginContent(
     state: LoginState,
@@ -72,19 +70,10 @@ fun LoginContent(
     onLogin: () -> Unit,
     onSignUp: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
-    onDialogExit: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
-    val bringIntoViewRequester = remember { BringIntoViewRequester() }
     val uriHandler = LocalUriHandler.current
-    val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
-    Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(R.drawable.background),
-        contentDescription = null,
-        contentScale = ContentScale.FillBounds
-    )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,7 +82,11 @@ fun LoginContent(
                     onTap = { focusManager.clearFocus() },
                 )
             }
-            .verticalScroll(state = scrollState),
+            .verticalScroll(state = scrollState)
+            .paint(
+                painterResource(id = R.drawable.background),
+                contentScale = ContentScale.FillBounds
+            ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
@@ -127,16 +120,7 @@ fun LoginContent(
             }
         )
         PasswordTextField(
-            modifier = Modifier
-                .padding(horizontal = 30.dp, vertical = 10.dp)
-                .bringIntoViewRequester(bringIntoViewRequester)
-                .onFocusEvent {
-                    if (it.isFocused) {
-                        scope.launch {
-                            bringIntoViewRequester.bringIntoView()
-                        }
-                    }
-                },
+            modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp),
             value = state.password.value,
             onValueChange = onPasswordChange,
             onVisibilityChange = onPasswordVisibilityChange,
@@ -175,7 +159,7 @@ fun LoginContent(
             checked = state.isCheckBoxChecked,
             onCheckedChange = onCheckedChange,
         )
-        if (state.isErrorAppeared && !state.isLoggedSuccessfully) {
+        if (state.isErrorAppeared) {
             Text(
                 modifier = Modifier.padding(vertical = 5.dp),
                 text = stringResource(id = R.string.login_screen_authorization_error),
@@ -208,13 +192,6 @@ fun LoginContent(
         )
         if (state.isLoading) {
             Loader()
-        } else if (state.isLoggedSuccessfully && !state.isErrorAppeared) {
-            CustomDialog(
-                title = stringResource(id = R.string.login_screen_success_title),
-                message = stringResource(id = R.string.login_screen_success_message),
-                isDialogOpen = state.isDialogDisplayed,
-                onDialogExit = onDialogExit
-            )
         }
     }
 }

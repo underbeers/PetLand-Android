@@ -2,7 +2,7 @@ package com.petland.app.di
 
 import com.petland.app.data.ApiService
 import com.petland.app.data.repository.AccountRepository
-import com.petland.app.data.repository.AuthorizationRepository
+import com.petland.app.data.store.Store
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,18 +14,9 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Singleton
     @Provides
-    fun provideMovieRepository(
-        apiService: ApiService,
-    ): AuthorizationRepository {
-        return AuthorizationRepository(
-            apiService
-        )
-    }
-
-    @Singleton
-    @Provides
     fun provideAccountRepository(
-        apiService: ApiService
+        apiService: ApiService,
+        store: Store
     ): AccountRepository {
         return AccountRepository(apiService)
     }
