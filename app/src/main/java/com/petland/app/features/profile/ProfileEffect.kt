@@ -5,4 +5,6 @@ sealed interface ProfileEffect {
     object NavigateToRating: ProfileEffect
     object NavigateToPets: ProfileEffect
     object NavigateToUserAdverts: ProfileEffect
+
+    object NavigateToSpecialist: ProfileEffect
 }

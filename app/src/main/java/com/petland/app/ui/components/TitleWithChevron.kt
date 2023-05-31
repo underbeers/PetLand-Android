@@ -88,14 +88,15 @@ fun RatingBar(
         }
         Text(
             text = when (reviewsAmount) {
-                0 -> ""
+                0 -> stringResource(id = R.string.profile_screen_rating_zero_reviews, rating)
                 1 -> stringResource(
                     R.string.profile_screen_rating_review,
+                    rating,
                     reviewsAmount
                 )
 
                 else -> stringResource(
-                    id = R.string.profile_screen_rating_reviews, reviewsAmount
+                    id = R.string.profile_screen_rating_reviews, rating, reviewsAmount
                 )
             },
             style = PetlandTheme.typography.underlinedText,

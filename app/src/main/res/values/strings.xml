@@ -44,16 +44,16 @@
     <string name="registration_screen_receive_code">Код</string>
     <string name="registration_screen_receive_code_mismatch">Неверный код</string>
     <string name="registration_screen_error">Ошибка регистрации</string>
-    
+
     <string name="chat_screen_title">Чаты</string>
     <string name="profile_screen_title">Профиль</string>
     <string name="favorites_screen_title">Избранное</string>
     <string name="services_screen_title">Сервисы</string>
     <string name="bulletin_board_screen_title">Объявления</string>
-
     <string name="profile_screen_unauthorized">Войдите или зарегистрируйтесь, чтобы пользоваться всеми функциями PetLand</string>
     <string name="profile_screen_authorize_button">Войти или зарегистрироваться</string>
     <string name="profile_screen_name">%1$s\n%2$s</string>
+    <string name="pet_screen_name">%1$s</string>
     <string name="profile_screen_sign_up_date">На Petland c %1$s %2$s</string>
     <string name="profile_screen_description">Описание:</string>
     <string name="profile_screen_pets_title">Питомцы</string>
@@ -63,8 +63,32 @@
     <string name="profile_screen_advert_description">%1$d активных объявления</string>
     <string name="profile_screen_advert_description_singular">%1$d активное объявление</string>
     <string name="profile_screen_advert_description_zero_adverts">%1$d активных объявлений</string>
-    <string name="profile_screen_rating_review">%1$d отзыв</string>
-    <string name="profile_screen_rating_reviews">%1$d отзыва</string>
-    <string name="settings_screen_title">Настройки</string>
+    <string name="profile_screen_specialist_title">Являюсь специалистом</string>
+    <string name="profile_screen_specialist_description">Кинолог, ветеринар</string>
+    <string name="profile_screen_rating_review">%1$f %1$d отзыв</string>
+    <string name="profile_screen_rating_reviews">%1$f %1$d отзыва</string>
+    <string name="profile_screen_rating_zero_reviews">%1$.1f </string>
+
+    <string name="pet_absence_screen_header">У вас пока нет питомцев</string>
+    <string name="pet_absence_screen_description">Если у вас уже есть питомец, добавьте его описание на PetLand</string>
+    <string name="pet_absence_screen_description_for_advert">Или найдите друга в объявлениях PetLand</string>
+    <string name="pet_absence_screen_add_pet">Добавить питомца</string>
+    <string name="pet_absence_screen_button_to_advert">Доска объявлений</string>
+
+    <string name="pet_screen_title_add">Добавление нового питомца</string>
+    <string name="pet_screen_edit_alias">Кличка</string>
+    <string name="pet_screen_edit_alias_description">Введите имя питомца</string>
+    <string name="pet_screen_edit_type">Вид</string>
+    <string name="pet_screen_edit_type_description">Выберите вид</string>
+    <string name="pet_screen_breed_title">Порода</string>
+    <string name="pet_screen_breed_description">Выберите породу</string>
+    <string name="pet_screen_gender_title">Пол</string>
+    <string name="pet_screen_gender_description">Выберите Пол</string>
+    <string name="pet_screen_title_edit">Редактирование питомца</string>
+    <string name="pet_warning_screen">Эта страница находится в разработке\nЗагляните сюда позже</string>
+
+    <string name="pet_user_advert_screen">Объявления пользователя</string>
+    <string name="specialist_screen_title">Cпециалист</string>
+
 
 </resources>

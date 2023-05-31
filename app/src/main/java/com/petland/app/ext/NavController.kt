@@ -8,3 +8,15 @@ fun NavOptionsBuilder.popUpToTop(navController: NavController) {
         inclusive =  true
     }
 }
+
+fun NavController.popUpDestinationAndNavigate(route: String) {
+    this.navigate(route) {
+        graph.startDestinationRoute?.let { route ->
+            popUpTo(route) {
+                saveState = true
+            }
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}

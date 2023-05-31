@@ -1,7 +1,7 @@
 package com.petland.app.features.profile
 
 import androidx.lifecycle.viewModelScope
-import com.petland.app.data.repository.AccountRepository
+import com.petland.app.data.repository.ProfileRepository
 import com.petland.app.data.store.Store
 import com.petland.app.features.base.BaseViewModel
 import com.petland.app.util.DataState
@@ -15,10 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel
-@Inject constructor(private val accountRepository: AccountRepository, private val store: Store) :
+@Inject constructor(private val profileRepository: ProfileRepository, private val store: Store) :
     BaseViewModel<ProfileState, ProfileEffect>(ProfileState()) {
     init {
         getUserInfo()
+        getPetCards()
     }
 
     fun onAuthorize() {
@@ -37,10 +38,14 @@ class ProfileViewModel
         postEffect(ProfileEffect.NavigateToRating)
     }
 
+    fun onSpecialistClick() {
+        postEffect(ProfileEffect.NavigateToSpecialist)
+    }
+
     private fun getUserInfo() {
         viewModelScope.launch {
             val accessToken = store.accessToken.first()
-            val userInfo = accountRepository.getUserInfo(accessToken)
+            val userInfo = profileRepository.getUserInfo(accessToken)
             userInfo.onEach { response ->
                 if (response is DataState.Success) {
                     setState {
@@ -57,6 +62,22 @@ class ProfileViewModel
                         copy(
                             profileType = ProfileType.UNAUTHORIZED,
                             isLoading = false
+                        )
+                    }
+                }
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    private fun getPetCards() {
+        viewModelScope.launch {
+            val petCards = profileRepository.getPetCards()
+            petCards.onEach { response ->
+                if (response is DataState.Success) {
+                    setState {
+                        copy(
+                            pets = response.data
+
                         )
                     }
                 }

@@ -1,9 +1,9 @@
-package com.petland.app.features.rating
+package com.petland.app.features.specialist
 
 import androidx.compose.runtime.Composable
 import com.petland.app.ui.components.StillDevelopingWarning
 
 @Composable
-fun RatingScreen() {
+fun SpecialistScreen(){
     StillDevelopingWarning()
 }

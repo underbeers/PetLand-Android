@@ -8,4 +8,11 @@ object ApiURL {
     const val SEND_CODE = "email/code"
     const val GET_USER_INFO = "user/info"
     const val RESTORE_PASSWORD = "${WEB_URL}password-recovery"
+    const val GET_PETS = "petCards"
+    const val GET_PET_CARDS = "petCards/main"
+    const val CREATE_PET_CARD = "petCards/new"
+    const val UPDATE_PET_CARD = "petCards/update"
+    const val DELETE_PET = "petCards/delete"
+    const val PET_TYPES = "petTypes"
+    const val BREEDS = "breeds"
 }

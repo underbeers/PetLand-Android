@@ -61,6 +61,11 @@ data class PetlandTypography(
         fontFamily = mulish,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp
+    ),
+    val header5: TextStyle = TextStyle(
+        fontFamily = mulish,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 22.sp
     )
 )
 

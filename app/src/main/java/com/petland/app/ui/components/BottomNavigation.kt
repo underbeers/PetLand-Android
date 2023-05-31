@@ -11,6 +11,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
+import com.petland.app.ext.popUpDestinationAndNavigate
 import com.petland.app.navigation.Screen
 import com.petland.app.navigation.currentRoute
 import com.petland.app.ui.theme.PetlandLightPalette
@@ -48,15 +49,7 @@ fun BottomNavigationUI(navController: NavController, isVisible: MutableState<Boo
                     selectedContentColor = PetlandLightPalette.primary,
                     unselectedContentColor = PetlandTheme.colors.textLight,
                     onClick = {
-                        navController.navigate(item.route) {
-                            navController.graph.startDestinationRoute?.let { route ->
-                                popUpTo(route) {
-                                    saveState = true
-                                }
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+                        navController.popUpDestinationAndNavigate(item.route)
                     })
             }
         }

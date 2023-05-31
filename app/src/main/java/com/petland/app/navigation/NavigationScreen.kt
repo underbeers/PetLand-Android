@@ -16,18 +16,30 @@ sealed class Screen(
             contentDescription = null
         )
     },
-    val objectName: String = "",
-    val objectPath: String = ""
+    val firstObjectName: String = "",
+    val firstObjectPath: String = "",
+    val secondObjectName: String = "",
+    val secondObjectPath: String = ""
 ) {
     object Login : Screen("login_screen")
     object SignUp: Screen("sign_up")
 
+    object Specialist: Screen("specialist", title = R.string.specialist_screen_title)
+
     object Rating: Screen("rating", title = R.string.profile_screen_rating)
 
-    object AdvertProfile: Screen("advert_profile", title = R.string.bulletin_board_screen_title)
+    object AdvertProfile: Screen("advert_profile", title = R.string.pet_user_advert_screen)
 
-    object Pet: Screen("pet", title = R.string.profile_screen_pets_title)
-    object SettingsScreen: Screen("settings_screen", title = R.string.settings_screen_title)
+    object PetEdit: Screen("pet_edit",  title = R.string.pet_screen_title_edit)
+    object PetAdd: Screen("pet_add", title = R.string.pet_screen_title_add)
+
+    object Pet: Screen(
+        route = "pet",
+        title = R.string.profile_screen_pets_title,
+        firstObjectName = "userInfo",
+        firstObjectPath = "/{userInfo}",
+        secondObjectName = "avatarLink",
+        secondObjectPath = "/{avatarLink}")
 
     object BulletinBoard : Screen("bulletin_board", title = R.string.bulletin_board_screen_title, navIcon = {
         Icon(

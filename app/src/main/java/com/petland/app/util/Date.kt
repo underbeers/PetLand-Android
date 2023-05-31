@@ -1,6 +1,10 @@
 package com.petland.app.util
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -10,6 +14,15 @@ fun getMonthName(): String {
     val dateFormat = SimpleDateFormat("LLLL", Locale("ru"))
     val currentMonth: String = dateFormat.format(calendar.time)
     return monthsDeclensions[currentMonth]?.get(0) ?: ""
+}
+
+fun getYears(birthDate: String): Int {
+    val formatter = DateTimeFormatter.ISO_DATE_TIME
+    val dateTime = LocalDateTime.parse(birthDate, formatter)
+    val date = dateTime.atZone(ZoneId.of("UTC")).toLocalDate()
+    val currentYear = LocalDate.now().year
+    val birthYear = date.year
+   return currentYear - birthYear
 }
 
 fun getCurrentYear(): Int {

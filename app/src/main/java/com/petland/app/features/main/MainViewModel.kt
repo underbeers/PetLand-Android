@@ -27,6 +27,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun onPetAddClick() {
+        postEffect(MainEffect.NavigateToPetAdd)
+    }
+
     fun onNavigateBack() {
         postEffect(MainEffect.NavigateBack)
     }

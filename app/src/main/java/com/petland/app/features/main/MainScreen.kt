@@ -35,6 +35,7 @@ fun MainScreen() {
             when (effect) {
                 MainEffect.NavigateBack -> navController.navigateUp()
                 MainEffect.NavigateToProfile -> navController.navigate(Screen.Profile.route) { popUpToTop(navController) }
+                MainEffect.NavigateToPetAdd -> navController.navigate(Screen.PetAdd.route)
             }
         }
     }
@@ -45,8 +46,8 @@ fun MainScreen() {
                 title = getTitleOfScreen(navController),
                 onNavigateBack = mainViewModel::onNavigateBack,
                 onLogoutClicked = mainViewModel::onLogoutClicked,
-                isLogoutButtonVisible = state.value.isAuthorized,
-                isVisible = topBarState
+                isVisible = topBarState,
+                onPetAddClick = mainViewModel::onPetAddClick
             )
         },
         bottomBar = {
@@ -56,7 +57,7 @@ fun MainScreen() {
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Navigation(navController, Modifier.padding(it))
+            Navigation(navController, Modifier.padding(it), state.value.isAuthorized)
         }
     }
 }

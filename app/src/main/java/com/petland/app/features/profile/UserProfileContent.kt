@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.stringPreferencesKey
 import coil.compose.AsyncImage
 import com.petland.app.R
 import com.petland.app.ui.components.PetCard
@@ -39,6 +40,7 @@ fun UserProfileContent(
     onPetsClick: () -> Unit,
     onRatingClick: () -> Unit,
     onAdvertClick: () -> Unit,
+    onSpecialistClick: () -> Unit,
 ) {
     val pagerState = rememberPagerState()
     val verticalScrollState = rememberScrollState()
@@ -117,7 +119,7 @@ fun UserProfileContent(
             HorizontalPager(
                 modifier = Modifier.padding(bottom = 10.dp),
                 pageSize = PageSize.Fixed(160.dp),
-                pageSpacing = 10.dp ,
+                pageSpacing = 10.dp,
                 pageCount = state.pets.size,
                 state = pagerState,
             ) { page ->
@@ -157,5 +159,14 @@ fun UserProfileContent(
             },
             onTitleClick = onAdvertClick,
         )
+
+        TitleWithChevron(
+            modifier = Modifier.fillMaxWidth(),
+            title = stringResource(id = R.string.profile_screen_specialist_title),
+            isChevronEnabled = state.isOtherProfile.not(),
+            description = stringResource(id = R.string.profile_screen_specialist_description),
+            onTitleClick = onSpecialistClick
+        )
     }
 }
+

@@ -3,13 +3,19 @@ package com.petland.app.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
@@ -55,11 +61,33 @@ fun DefaultTextField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onValueChange: (String) -> Unit,
-    isEnabled: Boolean = true
+    isEnabled: Boolean = true,
+    isLabelVisible: Boolean = false,
+    label: String = "",
+    isRequired: Boolean = false,
+    trailingIcon: @Composable (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier,
     ) {
+        if (isLabelVisible) {
+            Row(
+                modifier = Modifier.padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Text(
+                    text = label,
+                    style = PetlandTheme.typography.bigTitle,
+                )
+                if (isRequired) {
+                    Text(
+                        text = "*",
+                        style = PetlandTheme.typography.text,
+                        color = PetlandTheme.colors.error,
+                    )
+                }
+            }
+        }
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -97,6 +125,7 @@ fun DefaultTextField(
                 )
             },
             onValueChange = onValueChange,
+            trailingIcon = trailingIcon
         )
         if (isError) {
             Text(

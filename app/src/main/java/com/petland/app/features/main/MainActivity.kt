@@ -3,8 +3,6 @@ package com.petland.app.features.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.compose.rememberNavController
-import com.petland.app.navigation.Navigation
 import com.petland.app.ui.theme.PetlandTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,14 +1,20 @@
 package com.petland.app.ui.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,12 +48,14 @@ fun DefaultButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = false,
     onClick: () -> Unit = {},
+    icon: ImageVector? = null,
+    color: Color = PetlandTheme.colors.primary,
 ) {
     Button(
         modifier = modifier,
         shape = RoundedCornerShape(20.dp),
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = PetlandTheme.colors.primary,
+            backgroundColor = color,
             contentColor = White,
         ),
         enabled = enabled,
@@ -56,13 +64,23 @@ fun DefaultButton(
             pressedElevation = 0.dp,
             disabledElevation = 0.dp,
         ),
-        contentPadding = PaddingValues(vertical = 12.dp),
+        contentPadding = PaddingValues(
+            vertical = 12.dp,
+            horizontal = if (icon != null) 12.dp else 6.dp
+        ),
         onClick = onClick,
     ) {
         Text(
             text = text,
             style = PetlandTheme.typography.bigTitle,
         )
+        if (icon != null) {
+            Icon(
+                modifier = Modifier.padding(horizontal = 4.dp),
+                imageVector = icon,
+                contentDescription = null, tint = White
+            )
+        }
     }
 }
 
